@@ -2,33 +2,176 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Custom Panel Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Map King - Full API Example</title>
+
   <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .sidebar {
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #custom-map-detail,
+    #api-response,
+    #event-log {
+      border: 1px solid #ccc;
+      padding: 12px;
+      min-height: 100px;
+      overflow: auto;
+      white-space: pre-wrap;
+      background: #f8f8f8;
+    }
+
+    #map-king-map-embed {
+      flex: 1;
+    }
+
+    h2 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>Map King - Custom Detail Panel</h1>
-
-  <p>
-    <a href="/index.html">
-      <button type="button">Return</button>
-    </a>
-  </p>
+  <h1>Map King - Full JavaScript API Example</h1>
 
   <div class="layout">
 
     <div class="sidebar">
 
-      <button onclick="focusLocation('great-lakes-distillery-1')">
-        Great Lakes Distillery
-      </button>
+      <h2>Location Actions</h2>
 
-      <button onclick="focusLocation('3rd-street-market-hall')">
-        3rd Street Market Hall
-      </button>
+      <div class="button-group">
+
+        <button onclick="focusLocation()">
+          focusLocation()
+        </button>
+
+        <button onclick="highlightLocation()">
+          highlightLocation()
+        </button>
+
+        <button onclick="clearHighlight()">
+          clearHighlight()
+        </button>
+
+      </div>
+
+      <h2>Filter Actions</h2>
+
+      <div class="button-group">
+
+        <button onclick="filterByCategory()">
+          filterByCategory("Areas")
+        </button>
+
+        <button onclick="clearFilters()">
+          clearFilters()
+        </button>
+
+      </div>
+
+      <h2>Map Actions</h2>
+
+      <div class="button-group">
+
+        <button onclick="fitToLocations()">
+          fitToLocations()
+        </button>
+
+        <button onclick="resetMap()">
+          reset()
+        </button>
+
+        <button onclick="showList()">
+          showList()
+        </button>
+
+        <button onclick="hideList()">
+          hideList()
+        </button>
+
+        <button onclick="refreshDOMHooks()">
+          refreshDOMHooks()
+        </button>
+
+        <button onclick="reloadData()">
+          reloadData()
+        </button>
+
+      </div>
+
+      <h2>Data Retrieval</h2>
+
+      <div class="button-group">
+
+        <button onclick="getFeatures()">
+          getFeatures()
+        </button>
+
+        <button onclick="getAllFeatures()">
+          getFeatures({ all: true })
+        </button>
+
+        <button onclick="getFeature()">
+          getFeature("polygon1")
+        </button>
+
+        <button onclick="getCategories()">
+          getCategories()
+        </button>
+
+        <button onclick="getState()">
+          getState()
+        </button>
+
+      </div>
+
+      <h2>Selected Feature</h2>
 
       <div id="custom-map-detail">
         Select a location...
+      </div>
+
+      <h2>API Response</h2>
+
+      <div id="api-response">
+        API responses will appear here...
+      </div>
+
+      <h2>Event Log</h2>
+
+      <div id="event-log">
+        Events will appear here...
       </div>
 
     </div>
@@ -38,28 +181,237 @@
   </div>
 
   <script>
+
     window.MKMapConfig = {
       container: "map-king-map-embed",
+
       dataUrl: "https://mkmap-two.vercel.app/locations-mapking.json",
 
       showList: false,
 
       mapWidth: "100%",
-      mapHeight: "650px"
+      mapMaxWidth: "1200px",
+
+      mapHeight: "650px",
+      mapMaxHeight: "650px",
+
+      fitOnLoad: true,
+      flyToOnFocus: true
     };
 
-    function focusLocation(id) {
-      window.MapKing.focusLocation(id);
+    function logResponse(title, data) {
+      document.querySelector("#api-response").textContent =
+        title + "\n\n" + JSON.stringify(data, null, 2);
     }
 
-    window.addEventListener("mapking:select", function (event) {
-      const feature = event.detail.feature;
+    function logEvent(eventName, detail) {
+      const eventLog = document.querySelector("#event-log");
 
-      document.querySelector("#custom-map-detail").innerHTML = `
-        <h3>${feature.properties.title}</h3>
-        <p>${feature.properties.category}</p>
-      `;
-    });
+      eventLog.textContent =
+        `[${eventName}]\n` +
+        JSON.stringify(detail, null, 2) +
+        "\n\n" +
+        eventLog.textContent;
+    }
+
+    // =========================
+    // API FUNCTIONS
+    // =========================
+
+    function focusLocation() {
+      window.MapKing.focusLocation("3rd-street-market-hall");
+    }
+
+    function highlightLocation() {
+      window.MapKing.highlightLocation("great-lakes-distillery-1");
+    }
+
+    function clearHighlight() {
+      window.MapKing.clearHighlight();
+    }
+
+    function filterByCategory() {
+      window.MapKing.filterByCategory("Areas");
+    }
+
+    function clearFilters() {
+      window.MapKing.clearFilters();
+    }
+
+    function fitToLocations() {
+      window.MapKing.fitToLocations([
+        "3rd-street-market-hall",
+        "route-test"
+      ]);
+    }
+
+    function resetMap() {
+      window.MapKing.reset();
+    }
+
+    function showList() {
+      window.MapKing.showList();
+    }
+
+    function hideList() {
+      window.MapKing.hideList();
+    }
+
+    function refreshDOMHooks() {
+      window.MapKing.refreshDOMHooks();
+
+      logResponse(
+        "refreshDOMHooks()",
+        { success: true }
+      );
+    }
+
+    function reloadData() {
+      window.MapKing.reloadData();
+
+      logResponse(
+        "reloadData()",
+        { success: true }
+      );
+    }
+
+    function getFeatures() {
+      const result = window.MapKing.getFeatures();
+
+      logResponse("getFeatures()", result);
+    }
+
+    function getAllFeatures() {
+      const result = window.MapKing.getFeatures({
+        all: true
+      });
+
+      logResponse(
+        'getFeatures({ all: true })',
+        result
+      );
+    }
+
+    function getFeature() {
+      const result =
+        window.MapKing.getFeature("polygon1");
+
+      logResponse(
+        'getFeature("polygon1")',
+        result
+      );
+    }
+
+    function getCategories() {
+      const result =
+        window.MapKing.getCategories();
+
+      logResponse(
+        "getCategories()",
+        result
+      );
+    }
+
+    function getState() {
+      const result =
+        window.MapKing.getState();
+
+      logResponse(
+        "getState()",
+        result
+      );
+    }
+
+    // =========================
+    // EVENTS
+    // =========================
+
+    window.addEventListener(
+      "mapking:ready",
+      function (event) {
+        logEvent("mapking:ready", event.detail);
+      }
+    );
+
+    window.addEventListener(
+      "mapking:select",
+      function (event) {
+
+        const feature = event.detail.feature;
+
+        document.querySelector(
+          "#custom-map-detail"
+        ).innerHTML = `
+          <h3>${feature.properties.title}</h3>
+          <p>
+            Category:
+            ${feature.properties.category}
+          </p>
+        `;
+
+        logEvent(
+          "mapking:select",
+          event.detail
+        );
+      }
+    );
+
+    window.addEventListener(
+      "mapking:clear-highlight",
+      function (event) {
+
+        document.querySelector(
+          "#custom-map-detail"
+        ).textContent =
+          "Selection cleared";
+
+        logEvent(
+          "mapking:clear-highlight",
+          event.detail
+        );
+      }
+    );
+
+    window.addEventListener(
+      "mapking:filter",
+      function (event) {
+        logEvent(
+          "mapking:filter",
+          event.detail
+        );
+      }
+    );
+
+    window.addEventListener(
+      "mapking:reset",
+      function (event) {
+        logEvent(
+          "mapking:reset",
+          event.detail
+        );
+      }
+    );
+
+    window.addEventListener(
+      "mapking:panel",
+      function (event) {
+        logEvent(
+          "mapking:panel",
+          event.detail
+        );
+      }
+    );
+
+    window.addEventListener(
+      "mapking:data",
+      function (event) {
+        logEvent(
+          "mapking:data",
+          event.detail
+        );
+      }
+    );
+
   </script>
 
   <script src="https://mkmap-two.vercel.app/embed.js"></script>
