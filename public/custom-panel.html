@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom Panel Example</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <h1>Map King - Custom Detail Panel</h1>
+
+  <p>
+    <a href="/index.html">
+      <button type="button">Return</button>
+    </a>
+  </p>
+
+  <div class="layout">
+
+    <div class="sidebar">
+
+      <button onclick="focusLocation('great-lakes-distillery-1')">
+        Great Lakes Distillery
+      </button>
+
+      <button onclick="focusLocation('3rd-street-market-hall')">
+        3rd Street Market Hall
+      </button>
+
+      <div id="custom-map-detail">
+        Select a location...
+      </div>
+
+    </div>
+
+    <div id="map-king-map-embed"></div>
+
+  </div>
+
+  <script>
+    window.MKMapConfig = {
+      container: "map-king-map-embed",
+      dataUrl: "https://mkmap-two.vercel.app/locations-mapking.json",
+
+      showList: false,
+
+      mapWidth: "100%",
+      mapHeight: "650px"
+    };
+
+    function focusLocation(id) {
+      window.MapKing.focusLocation(id);
+    }
+
+    window.addEventListener("mapking:select", function (event) {
+      const feature = event.detail.feature;
+
+      document.querySelector("#custom-map-detail").innerHTML = `
+        <h3>${feature.properties.title}</h3>
+        <p>${feature.properties.category}</p>
+      `;
+    });
+  </script>
+
+  <script src="https://mkmap-two.vercel.app/embed.js"></script>
+
+</body>
+</html>

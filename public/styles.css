@@ -1,0 +1,34 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+#map-king-map-embed {
+  margin-top: 20px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.layout {
+  display: flex;
+  gap: 20px;
+}
+
+.sidebar {
+  width: 300px;
+}
+
+#custom-map-detail {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #ccc;
+}

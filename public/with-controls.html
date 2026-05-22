@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Map With Controls</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <h1>Map King - With Built-In Controls</h1>
+
+  <p>
+    <a href="/index.html">
+      <button type="button">Return</button>
+    </a>
+  </p>
+
+  <div id="map-king-map-embed"></div>
+
+  <script>
+    window.MKMapConfig = {
+      container: "map-king-map-embed",
+      dataUrl: "https://mkmap-two.vercel.app/locations-mapking.json",
+
+      showList: true,
+
+      mapWidth: "100%",
+      mapMaxWidth: "1200px",
+
+      mapHeight: "650px",
+      mapMaxHeight: "650px",
+
+      fitOnLoad: false,
+      flyToOnFocus: true,
+      autoShowListOnFocus: true,
+
+      panelBackgroundColor: "#172638",
+      panelTextColor: "#ffffff",
+      panelMutedColor: "#cbd6e2",
+      panelAccentColor: "#8fd8cc",
+
+      title: "Event Guide",
+      description: "Browse locations, filter categories, and sync with the page."
+    };
+  </script>
+
+  <script src="https://mkmap-two.vercel.app/embed.js"></script>
+
+</body>
+</html>

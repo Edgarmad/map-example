@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Map Without Controls</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <h1>Map King - Custom Controls</h1>
+
+  <p>
+    <a href="/index.html">
+      <button type="button">Return</button>
+    </a>
+  </p>
+
+  <div class="controls">
+    <button data-mk-location-id="3rd-street-market-hall">
+      Focus Market Hall
+    </button>
+
+    <button data-mk-filter-category="Areas">
+      Filter Areas
+    </button>
+
+    <button data-mk-map-action="reset">
+      Reset Map
+    </button>
+
+    <button data-mk-map-action="fit-all">
+      Fit All
+    </button>
+  </div>
+
+  <div id="map-king-map-embed"></div>
+
+  <script>
+    window.MKMapConfig = {
+      container: "map-king-map-embed",
+      dataUrl: "https://mkmap-two.vercel.app/locations-mapking.json",
+
+      showList: false,
+
+      mapWidth: "100%",
+      mapMaxWidth: "1200px",
+
+      mapHeight: "650px",
+      mapMaxHeight: "650px",
+
+      fitOnLoad: true,
+      flyToOnFocus: true
+    };
+  </script>
+
+  <script src="https://mkmap-two.vercel.app/embed.js"></script>
+
+</body>
+</html>
